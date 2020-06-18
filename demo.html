@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ZH-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Demo</title>
+</head>
+
+<body>
+  <my-group>
+    <my-button>Button</my-button>
+  </my-group>
+</body>
+<script>
+  window.customElements.define('my-group', class extends HTMLElement {
+    constructor() {
+      super();
+      let node = this.attachShadow({ mode: 'closed' });
+      //::slotted Can't select ::part
+      node.innerHTML = `
+        <style>
+          ::slotted(*::part(a)){
+            background:red;
+          }  
+        </style>
+        <slot></slot>
+      `;
+    }
+  });
+
+  window.customElements.define('my-button', class extends HTMLElement {
+    constructor() {
+      super();
+      let node = this.attachShadow({ mode: 'closed' });
+      node.innerHTML = `
+        <div part="a">Text</div>
+      `;
+    }
+  })
+</script>
+
+</html>
